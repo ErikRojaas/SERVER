@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<productos>
+    <producto id="1" categoria="bebida">
+        <nombre>Agua</nombre>
+        <descripcion></descripcion>
+        <foto>agua.png</foto>
+        <precio>2.5</precio>
+    </producto>
+    <producto id="2" categoria="bebida">
+        <nombre>Coca-Cola</nombre>
+        <descripcion></descripcion>
+        <foto>cocacola.png</foto>
+        <precio>2.5</precio>
+    </producto>
+    <producto id="3" categoria="bebida">
+        <nombre>Fanta</nombre>
+        <descripcion></descripcion>
+        <foto>fanta.jpg</foto>
+        <precio>2.7</precio>
+    </producto>
+    <producto id="4" categoria="bebida,postre">
+        <nombre>Oreo Milkshake</nombre>
+        <descripcion>Milksake de oreo con helado de vainilla crema de avellanas y sirope de chocolate</descripcion>
+        <foto>oreoMilk.jpg</foto>
+        <precio>8.9</precio>
+    </producto>
+    <producto id="5" categoria="bebida,postre">
+        <nombre>Brownie Milkshake</nombre>
+        <descripcion>Milkshake de brownie casero, helado de chocolate, nutella y nueces picadas</descripcion>
+        <foto>brownieMilk.jpg</foto>
+        <precio>9.9</precio>
+    </producto>
+    <producto id="6" categoria="entrantes">
+        <nombre>The Ranch Nachos</nombre>
+        <descripcion>Nachos de maíz con totopos caseros. Junto a nuestra salsa de queso cheddar, pico de gallo casero, frijoles. Jalapeños, creama gria y guacamole.</descripcion>
+        <foto>nachos.jpg</foto>
+        <precio>11.5</precio>
+    </producto>
+    <producto id="7" categoria="entrantes">
+        <nombre>Bacon cheese fries</nombre>
+        <descripcion>Patatas fritas Junto a queso cheddar fundido. bacon ahumado troceado y nuestra salsa ranchera casera.</descripcion>
+        <foto>bacon-cheese-fies.jpg</foto>
+        <precio>10.5</precio>
+    </producto>
+    <producto id="8" categoria="entrantes">
+        <nombre>Big Smoked Fried Chiken</nombre>
+        <descripcion>Tiras de pollo frito marinado junto a nuestra salsa Big Smoke.</descripcion>
+        <foto>chiken.jpg</foto>
+        <precio>11.5</precio>
+    </producto>
+    <producto id="9" categoria="entrantes">
+        <nombre>Croquetas ahumadas</nombre>
+        <descripcion>Una delicia. Croquetas de costilla de cerdo duroc ahumada 5 horas</descripcion>
+        <foto>croquetas.jpg</foto>
+        <precio>12.6</precio>
+    </producto>
+    <producto id="10" categoria="entrantes">
+        <nombre>Cheesebacon Doughnut Bites</nombre>
+        <descripcion>Bites de masa de donut con queso cheddar y bacon ahumado junto a sirope de arce y bacon picado. Acompañados de nuestra salsa miel mostaza</descripcion>
+        <foto>donutBites.jpg</foto>
+        <precio>9.9</precio>
+    </producto>
+    <producto id="11" categoria="burgers">
+        <nombre>Franklin</nombre>
+        <descripcion>Nuestra burger de 200g Junto a queso cheddar fundido, bacon ahumado, cebolla frita y nuestra salsa Franklin</descripcion>
+        <foto>franklin.jpg</foto>
+        <precio>13.9</precio>
+    </producto>
+    <producto id="12" categoria="burgers">
+        <nombre>Fatness</nombre>
+        <descripcion>Nuestra burger de 200g con un donut glaseado artesanal, queso cheddar fundido, bacon ahumado. crema de cacahuete y salsa de fresas ahumadas 3 horas.</descripcion>
+        <foto>fatness.png</foto>
+        <precio>15.9</precio>
+    </producto>
+    <producto id="13" categoria="burgers">
+        <nombre>Spider-Cerdo</nombre>
+        <descripcion>Nuestra burger de 200g Junto a queso Monterey jack, bacon Pig candy de raza duroc ahumado 4 a baja temperatura, pepinillos caseros encurtidos con jack Daniels, cebolla caramelizada y nuestra salsa EMMY</descripcion>
+        <foto>spider-cerdo.jpg</foto>
+        <precio>16.9</precio>
+    </producto>
+    <producto id="14" categoria="burgers">
+        <nombre>Big Smoke</nombre>
+        <descripcion>Nuestra burger de 200g Junto a queso cheddar fundido, bacon ahumado troceado, cebolla frita. cebolla fresca y pepinillos troceados, lechuga y nuestra salsa Big Smoke.</descripcion>
+        <foto>bigSmoke.png</foto>
+        <precio>14.5</precio>
+    </producto>
+    <producto id="15" categoria="burgers">
+        <nombre>G.O.A.T</nombre>
+        <descripcion>Nuestra burger de 200g Junto a una salsa de queso de cabra. bites de queso de cabra rebozados, cacahuete caramelizado y chutney de manzana y cebolla.</descripcion>
+        <foto>GOAT.jpg</foto>
+        <precio>15.5</precio>
+    </producto>
+    <producto id="16" categoria="burgers">
+        <nombre>La Trufada</nombre>
+        <descripcion>Doble smash burger, queso emmental fundido, huevo frito, patata paja y mayonesa trufada casera</descripcion>
+        <foto>trufada.png</foto>
+        <precio>13.9</precio>
+    </producto>
+    <producto id="17" categoria="smokehouse">
+        <nombre>St.Luis Style Ribs</nombre>
+        <descripcion>Porción de nuestras Ribs originales al corte St.Louis (parte alta del costillar). De cerdo duroc y ahumadas 6 horas a 275°F.(costillar entero)</descripcion>
+        <foto>st_luis.png</foto>
+        <precio>29.9</precio>
+    </producto>
+    <producto id="18" categoria="smokehouse">
+        <nombre>Beef Rib</nombre>
+        <descripcion>Costilla de ternera ahumado 10 horas en nuestro ahumador con madera americana.(costillar entero)</descripcion>
+        <foto>beefreep.jpg</foto>
+        <precio>35.9</precio>
+    </producto>
+    <producto id="19" categoria="smokehouse">
+        <nombre>Pig Candy</nombre>
+        <descripcion>Panceta de cerdo cortada a mano, adobada con nuestro adobo y azúcar moreno. Ahumada 2 horas a 275°F.</descripcion>
+        <foto>pigCandy.jpg</foto>
+        <precio>14.9</precio>
+    </producto>
+    <producto id="20" categoria="smokehouse">
+        <nombre>Chiken Leg</nombre>
+        <descripcion>Muslo de pollo ahumado a 275°F durante 4 horas. Finalizado en parrilla</descripcion>
+        <foto>chikenLeg.jpg</foto>
+        <precio>13.9</precio>
+    </producto>
+    <producto id="21" categoria="smokehouse,Grill">
+        <nombre>Texas Ribeye</nombre>
+        <descripcion>Chuleton 1Kg de vaca madurada 70 dias</descripcion>
+        <foto>ribeye.jpg</foto>
+        <precio>55</precio>
+    </producto>
+    <producto id="22" categoria="smokehouse,Grill">
+        <nombre>Dry Aged T-Bone</nombre>
+        <descripcion>T-bone de 1,2Kg de vaca madurada 90 dias</descripcion>
+        <foto>tbone.jpg</foto>
+        <precio>68</precio>
+    </producto>
+    <producto id="23" categoria="postre">
+        <nombre>Coulant</nombre>
+        <descripcion>Coulant con salsa de chocolate negro y helado de vainilla</descripcion>
+        <foto>coulant.jpg</foto>
+        <precio>5.5</precio>
+    </producto>
+    <producto id="24" categoria="bebida">
+        <nombre>Sorbete de Limon</nombre>
+        <descripcion>Sorbete De LimÓn Al Cava</descripcion>
+        <foto>sorbete.jpg</foto>
+        <precio>5</precio>
+    </producto>
+    <producto id="25" categoria="postre">
+        <nombre>Crema Catalana</nombre>
+        <descripcion>crema pastelera con una base de yema de huevo cubierta de una crujiente capa de azúcar caramelizado</descripcion>
+        <foto>crema_catalana.jpg</foto>
+        <precio>4.9</precio>
+    </producto>
+</productos>
