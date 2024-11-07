@@ -10,7 +10,7 @@ public class ClientPruebas {
 
     public static void connectToServer() {
         // Asegúrate de que el servidor WebSocket esté corriendo en este URI
-        String serverUri = "ws://barretina5.ieti.site:3000";
+        String serverUri = "wss://barretina5.ieti.site:443";  // O ws:// si no tienes TLS
 
         // Crear el cliente HttpClient
         HttpClient client = HttpClient.newHttpClient();
@@ -53,7 +53,9 @@ public class ClientPruebas {
 
         // Esperar a que la conexión sea establecida o se cierre
         try {
+            System.out.println("Esperando la conexión WebSocket...");
             webSocketFuture.get();  // Este bloque espera la conexión o cualquier error
+            System.out.println("Conexión establecida y cerrada.");
         } catch (Exception e) {
             // Captura las excepciones si no se pudo conectar
             System.err.println("Error al conectar con el servidor WebSocket: " + e.getMessage());
@@ -66,3 +68,4 @@ public class ClientPruebas {
         connectToServer();
     }
 }
+
