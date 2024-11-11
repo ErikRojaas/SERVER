@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.erikxavi.barretina</groupId>
+  <groupId>com.example</groupId>
   <artifactId>project-name</artifactId>
   <version>1.0.0</version>
   <build>
@@ -31,37 +31,13 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>com.erikxavi.barretina.Server</mainClass>
+                  <mainClass>com.server.Main</mainClass>
                 </transformer>
               </transformers>
               <finalName>server-package</finalName>
             </configuration>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.11.0</version>
-        <configuration>
-          <source>20</source>
-          <target>20</target>
-          <compilerArgs>
-            <arg>--add-reads=com.erikxavi.barretina=org.java_websocket</arg>
-            <arg>--add-reads=com.erikxavi.barretina=org.jline.reader</arg>
-            <arg>--add-reads=com.erikxavi.barretina=org.json</arg>
-          </compilerArgs>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>3.1.0</version>
-        <configuration>
-          <archive>
-            <manifestEntries>
-              <Main-Class>com.erikxavi.barretina.Server</Main-Class>
-            </manifestEntries>
-          </archive>
-        </configuration>
       </plugin>
     </plugins>
   </build>
