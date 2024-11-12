@@ -1,1 +1,4 @@
-com/erikxavi/barretina/Main.class
+com/erikxavi/barretina/Server.class
+com/erikxavi/barretina/Client.class
+com/erikxavi/barretina/UtilsWS.class
+com/erikxavi/barretina/UtilsWS$1.class
