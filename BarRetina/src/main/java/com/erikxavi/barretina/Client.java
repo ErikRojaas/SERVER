@@ -26,8 +26,8 @@ public class Client {
             JSONObject msgObj = new JSONObject(response);
             switch (msgObj.getString("type")) {
                 case "ping":
-                    String pong = msgObj.getString("message");
-                    out.println(pong);
+                    String ping = msgObj.getString("message");
+                    out.println(ping);
                     break;
                 case "bounce":
                     String msg = msgObj.getString("message");
@@ -72,7 +72,7 @@ public class Client {
                     line = line.trim();
     
                     if (line.equalsIgnoreCase("connect")) {
-                        connectToServer("barretina5.ieti.site");
+                        connectToServer("barretina5.ieti.site:443");
                         out.println("Connection was succesful.");
                     } else if (line.equalsIgnoreCase("products")) {
                         JSONObject message = new JSONObject();

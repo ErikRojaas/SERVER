@@ -109,7 +109,7 @@ public class Server extends WebSocketServer {
             switch (type) {
                 case "ping":
                     JSONObject msg = new JSONObject();
-                    msg.put("message", "pong");
+                    msg.put("message", "ping recieved");
                     msg.put("type", "ping");
                     conn.send(msg.toString());
                     break;
@@ -122,15 +122,15 @@ public class Server extends WebSocketServer {
                     break;
                 case "products":
                     JSONObject msg2 = new JSONObject();
-                    String products = printProducts();
-                    msg2.put("message", products);
+                    String productos = printProducts();
+                    msg2.put("message", productos);
                     msg2.put("type", "products");
                     conn.send(msg2.toString());
                     break;
                 case "tags":
                     JSONObject msg3 = new JSONObject();
-                    String tags = printTags();
-                    msg3.put("message", tags);
+                    String categorias = printTags();
+                    msg3.put("message", categorias);
                     msg3.put("type", "tags");
                     conn.send(msg3.toString());
                     break;
