@@ -14,7 +14,7 @@ public class Client {
 
     public static UtilsWS wsClient;
 
-    public static void connectToServer(String host, String port){
+    public static void connectToServer(String host){
         String protocol = "wss";
         wsClient = UtilsWS.getSharedInstance(protocol + "://" + host);
     
@@ -45,12 +45,14 @@ public class Client {
         }
     
         private static void wsError(String response) {
-            String connectionRefused = "S'ha refusat la connexiÃ³";
-                Platform.runLater(() -> {
-                    out.println(connectionRefused);
-                    wsClient = null;
-                });
-            }
+            String connectionRefused = "Connection was refused";
+            Platform.runLater(() -> {
+                out.println(connectionRefused);
+                wsClient = null;
+                out.println("Attempting to reconnect...");
+                connectToServer("barretina5.ieti.site");
+            });
+        }
     
         public static void main(String[] args) {
             LineReader reader = LineReaderBuilder.builder().build();
@@ -70,7 +72,7 @@ public class Client {
                     line = line.trim();
     
                     if (line.equalsIgnoreCase("connect")) {
-                        connectToServer("barretina5.ieti.site", "443");
+                        connectToServer("barretina5.ieti.site");
                         out.println("Connection was succesful.");
                     } else if (line.equalsIgnoreCase("products")) {
                         JSONObject message = new JSONObject();

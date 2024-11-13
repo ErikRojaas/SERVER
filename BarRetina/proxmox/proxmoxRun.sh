@@ -25,7 +25,7 @@ fi
 
 # Generar '.jar'
 rm -f JAR_PATH
-./run.sh com.server.Main build
+./run.sh com.erikxavi.barretina.Server build
 
 if [[ ! -f "$JAR_PATH" ]]; then
     echo "Error: No s'ha trobat l'arxiu JAR: $JAR_PATH"
