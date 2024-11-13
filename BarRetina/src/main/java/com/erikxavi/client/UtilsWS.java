@@ -1,4 +1,4 @@
-package com.erikxavi.barretina;
+package com.erikxavi.client;
 
 import java.net.URI;
 import java.net.URISyntaxException;

@@ -1,4 +1,4 @@
-package com.erikxavi.barretina;
+package com.erikxavi.client;
 
 import static java.lang.System.out;
 
@@ -50,7 +50,7 @@ public class Client {
                 out.println(connectionRefused);
                 wsClient = null;
                 out.println("Attempting to reconnect...");
-                connectToServer("barretina5.ieti.site");
+                connectToServer("barretina5.ieti.site:433");
             });
         }
     

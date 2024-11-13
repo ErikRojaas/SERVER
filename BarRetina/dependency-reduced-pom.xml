@@ -31,7 +31,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>com.erikxavi.barretina.Server</mainClass>
+                  <mainClass>com.erikxavi.server.Server</mainClass>
                 </transformer>
               </transformers>
               <finalName>server-package</finalName>

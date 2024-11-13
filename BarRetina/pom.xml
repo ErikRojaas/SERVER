@@ -33,7 +33,7 @@
                             <configuration>
                                 <transformers>
                                     <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                        <mainClass>com.erikxavi.barretina.Server</mainClass> 
+                                        <mainClass>com.erikxavi.server.Server</mainClass> 
                                     </transformer>
                                 </transformers>
                                 <finalName>server-package</finalName>
