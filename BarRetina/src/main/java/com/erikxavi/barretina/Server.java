@@ -1,9 +1,14 @@
 package com.erikxavi.barretina;
 
+import static java.lang.System.out;
+
 import java.io.BufferedReader;
+import java.io.Console;
 import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -15,83 +20,134 @@ import org.jline.reader.EndOfFileException;
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
 import org.jline.reader.UserInterruptException;
-import org.json.JSONArray;
 import org.json.JSONObject;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.File;
+import java.io.InputStream;
 
 public class Server extends WebSocketServer {
 
-    private Map<WebSocket, String> clients = new ConcurrentHashMap<>();
-    private static Map<String, JSONObject> selectableObjects = new ConcurrentHashMap<>();
+    private Map<WebSocket, String> clients;
+    private static ArrayList<Element> productos;
+    private static ArrayList<String> tags = new ArrayList<>(Arrays.asList("Bebida", "Entrantes", "Burgers", "Smokehouse", "Grill", "Postres"));
 
     public Server(InetSocketAddress address) {
         super(address);
+        clients = new ConcurrentHashMap<>();
+        productos = new ArrayList<>();
+    }
+
+    public static void readXml(File xml) {
+        try {
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(xml);
+            doc.getDocumentElement().normalize();
+    
+            NodeList arrayProducts = doc.getElementsByTagName("producto");
+            System.out.println("Productos: " + arrayProducts.getLength());
+    
+            for (int cnt = 0; cnt < arrayProducts.getLength(); cnt++) {
+                Node nodeProduct = arrayProducts.item(cnt);
+                if (nodeProduct.getNodeType() == Node.ELEMENT_NODE) {
+                    Element elm = (Element) nodeProduct;
+    
+                    // Extraemos el id y la categoría del producto
+                    String id = elm.getAttribute("id");
+                    String categoria = elm.getAttribute("categoria");
+    
+                    // Extraemos los subelementos nombre, descripcion, precio y foto
+                    String nombre = obtenerValorElemento(elm, "nombre");
+                    String descripcion = obtenerValorElemento(elm, "descripcion");
+                    String precio = obtenerValorElemento(elm, "precio");
+                    String foto = obtenerValorElemento(elm, "foto");
+    
+                    // Imprimimos los valores de cada producto para verificar
+                    System.out.println("Producto ID: " + id);
+                    System.out.println("  Nombre: " + nombre);
+                    System.out.println("  Descripción: " + descripcion);
+                    System.out.println("  Precio: " + precio);
+                    System.out.println("  Foto: " + foto);
+                    System.out.println("  Categoría: " + categoria);
+    
+                    // Añadir el elemento `elm` a la lista `productos`
+                    productos.add(elm);
+                }
+            }
+    
+            System.out.println("Productos cargados: " + productos.size());
+    
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void onOpen(WebSocket conn, ClientHandshake handshake) {
-        System.out.println("WebSocket client connected.");
-        clients.put(conn, "Client_" + conn.getRemoteSocketAddress().toString());
-        sendClientsList();
+        System.out.println("WebSocket client connected: " + conn);
     }
 
     @Override
     public void onClose(WebSocket conn, int code, String reason, boolean remote) {
-        String clientName = clients.get(conn);
-        clients.remove(conn);
-        System.out.println("WebSocket client disconnected: " + clientName);
-        sendClientsList();
+        System.out.println("WebSocket client disconnected: " + conn);
     }
 
     @Override
     public void onMessage(WebSocket conn, String message) {
-        JSONObject msgObj = new JSONObject(message);
-        String type = msgObj.optString("type");
+        JSONObject obj = new JSONObject(message);
 
-        switch (type) {
-            case "ping":
-                handlePing(conn);
-                break;
-            case "products":
-                handleProducts(conn);
-                break;
-            case "tags":
-                handleTags(conn);
-                break;
-            case "bounce":
-                handleBounce(conn, msgObj.optString("message"));
-                break;
-            default:
-                System.out.println("Unrecognized message type: " + type);
-                break;
+        if (obj.has("type")) {
+            String type = obj.getString("type");
+
+            switch (type) {
+                case "ping":
+                    JSONObject msg = new JSONObject();
+                    msg.put("message", "pong");
+                    msg.put("type", "ping");
+                    conn.send(msg.toString());
+                    break;
+                case "bounce":
+                    JSONObject msg1 = new JSONObject();
+                    String line = obj.getString("message");
+                    msg1.put("message", line);
+                    msg1.put("type", "bounce");
+                    conn.send(msg1.toString());
+                    break;
+                case "products":
+                    JSONObject msg2 = new JSONObject();
+                    String products = printProducts();
+                    msg2.put("message", products);
+                    msg2.put("type", "products");
+                    conn.send(msg2.toString());
+                    break;
+                case "tags":
+                    JSONObject msg3 = new JSONObject();
+                    String tags = printTags();
+                    msg3.put("message", tags);
+                    msg3.put("type", "tags");
+                    conn.send(msg3.toString());
+                    break;
+            }
         }
     }
 
-    private void handlePing(WebSocket conn) {
-        JSONObject response = new JSONObject();
-        response.put("type", "pong");
-        response.put("message", "pong");
-        conn.send(response.toString());
+    @Override
+    public void onError(WebSocket conn, Exception ex) {
+        ex.printStackTrace();
     }
 
-    private void handleProducts(WebSocket conn) {
-        JSONObject response = new JSONObject();
-        response.put("type", "products");
-        response.put("message", "Lista de productos"); // Aquí puedes personalizar la lista de productos
-        conn.send(response.toString());
-    }
-
-    private void handleTags(WebSocket conn) {
-        JSONObject response = new JSONObject();
-        response.put("type", "tags");
-        response.put("message", "Lista de tags"); // Aquí puedes personalizar la lista de tags
-        conn.send(response.toString());
-    }
-
-    private void handleBounce(WebSocket conn, String message) {
-        JSONObject response = new JSONObject();
-        response.put("type", "bounce");
-        response.put("message", message);
-        broadcastMessage(response.toString(), conn);
+    @Override
+    public void onStart() {
+        System.out.println("WebSocket server started on port: " + getPort());
+        setConnectionLostTimeout(0);
+        setConnectionLostTimeout(100);
     }
 
     private void broadcastMessage(String message, WebSocket sender) {
@@ -110,104 +166,123 @@ public class Server extends WebSocketServer {
         }
     }
 
-    private void sendClientsList() {
-        JSONArray clientList = new JSONArray();
-        for (String clientName : clients.values()) {
-            clientList.put(clientName);
+    private static String printProducts() {
+        StringBuilder output = new StringBuilder();
+    
+        for (Element producto : productos) {
+            String id = producto.getAttribute("id");
+            String categoria = producto.getAttribute("categoria");
+    
+            // Verificamos y obtenemos los elementos internos de cada producto
+            String nombre = obtenerValorElemento(producto, "nombre");
+            String descripcion = obtenerValorElemento(producto, "descripcion");
+            String precio = obtenerValorElemento(producto, "precio");
+            String foto = obtenerValorElemento(producto, "foto");
+    
+            // Construimos la representación en texto de cada producto
+            output.append("Product ID: ").append(id)
+                  .append(" | Nombre: ").append(nombre)
+                  .append(" | Descripcion: ").append(descripcion)
+                  .append(" | Precio: ").append(precio)
+                  .append(" | Foto: ").append(foto)
+                  .append(" | Categoria: [").append(categoria).append("]\n");
         }
-
-        Iterator<Map.Entry<WebSocket, String>> iterator = clients.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<WebSocket, String> entry = iterator.next();
-            WebSocket conn = entry.getKey();
-            String clientName = entry.getValue();
-
-            JSONObject response = new JSONObject();
-            response.put("type", "clients");
-            response.put("id", clientName);
-            response.put("list", clientList);
-
-            try {
-                conn.send(response.toString());
-            } catch (WebsocketNotConnectedException e) {
-                System.out.println("Client " + clientName + " not connected.");
-                iterator.remove();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+    
+        return output.toString();
+    }
+    
+    // Método auxiliar para obtener el valor de un subelemento de un producto
+    private static String obtenerValorElemento(Element element, String tagName) {
+        NodeList nodeList = element.getElementsByTagName(tagName);
+        if (nodeList != null && nodeList.getLength() > 0) {
+            return nodeList.item(0).getTextContent();
         }
+        return ""; // Retornamos cadena vacía si no existe el subelemento
     }
 
-    public void sendServerSelectableObjects() {
-        JSONObject response = new JSONObject();
-        response.put("type", "serverSelectableObjects");
-        response.put("selectableObjects", selectableObjects);
-
-        broadcastMessage(response.toString(), null);
-    }
-
-    @Override
-    public void onError(WebSocket conn, Exception ex) {
-        ex.printStackTrace();
-    }
-
-    @Override
-    public void onStart() {
-        System.out.println("WebSocket server started on port: " + getPort());
-        setConnectionLostTimeout(100);
+    private static String printTags() {
+        StringBuilder output = new StringBuilder();
+        for (String tag : tags) {
+            output.append(tag + "\n");
+        }
+        return output.toString();
     }
 
     public static String askSystemName() {
-        StringBuilder result = new StringBuilder();
+        StringBuilder resultat = new StringBuilder();
+        String osName = System.getProperty("os.name").toLowerCase();
         try {
-            ProcessBuilder processBuilder = new ProcessBuilder("uname", "-r");
+            ProcessBuilder processBuilder;
+            if (osName.contains("win")) {
+                processBuilder = new ProcessBuilder("cmd.exe", "/c", "ver");
+            } else {
+                processBuilder = new ProcessBuilder("uname", "-r");
+            }
             Process process = processBuilder.start();
-
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
             while ((line = reader.readLine()) != null) {
-                result.append(line).append("\n");
+                resultat.append(line).append("\n");
             }
 
             int exitCode = process.waitFor();
             if (exitCode != 0) {
-                return "Error: Process exited with code " + exitCode;
+                return "Error: El proceso ha finalizado con código " + exitCode;
             }
         } catch (Exception e) {
             e.printStackTrace();
             return "Error: " + e.getMessage();
         }
-        return result.toString().trim();
+        return resultat.toString().trim();
     }
 
     public static void main(String[] args) {
+        String systemName = askSystemName();
+
         Server server = new Server(new InetSocketAddress(3000));
         server.start();
 
-        LineReader reader = LineReaderBuilder.builder().build();
-        System.out.println("Server running. Type 'exit' to stop it.");
+        String userDir = System.getProperty("user.dir");
+        File xml = new File(userDir, "PRODUCTES.XML");
 
-        try {
-            while (true) {
-                String line;
-                try {
-                    line = reader.readLine("> ");
-                } catch (UserInterruptException | EndOfFileException e) {
-                    break;
-                }
+        readXml(xml);
 
-                if ("exit".equalsIgnoreCase(line.trim())) {
-                    System.out.println("Stopping server...");
-                    server.stop(1000);
-                    break;
-                } else {
-                    System.out.println("Unknown command. Type 'exit' to stop server gracefully.");
+        Console console = System.console();
+        if (console != null) {
+            LineReader reader = LineReaderBuilder.builder().build();
+            System.out.println("Server running. Type 'exit' to gracefully stop it.");
+
+            try {
+                while (true) {
+                    String line = null;
+                    try {
+                        line = reader.readLine("> ");
+                    } catch (UserInterruptException e) {
+                        continue;
+                    } catch (EndOfFileException e) {
+                        break;
+                    }
+
+                    line = line.trim();
+
+                    if (line.equalsIgnoreCase("exit")) {
+                        System.out.println("Stopping server...");
+                        try {
+                            server.stop(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    } else {
+                        System.out.println("Unknown command. Type 'exit' to stop server gracefully.");
+                    }
                 }
+            } finally {
+                System.out.println("Server stopped.");
+                System.exit(0);
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } finally {
-            System.out.println("Server stopped.");
+        } else {
+            System.out.println("Server running in non-interactive mode.");
         }
     }
 }
