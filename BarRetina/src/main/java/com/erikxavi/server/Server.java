@@ -201,12 +201,12 @@ public class Server extends WebSocketServer {
     }
 
     private static String printTags() {
-        StringBuilder output = new StringBuilder();
-        for (String tag : tags) {
-            output.append(tag + "\n");
-        }
-        return output.toString();
+        JSONObject msg = new JSONObject();
+        msg.put("type", "tags");
+        msg.put("message", tags); // El array de tags se envía como JSON array
+        return msg.toString();
     }
+    
 
     public static String askSystemName() {
         StringBuilder resultat = new StringBuilder();
