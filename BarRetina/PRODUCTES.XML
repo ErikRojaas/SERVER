@@ -43,7 +43,7 @@
         <precio>10.5</precio>
     </producto>
     <producto id="8" categoria="entrantes">
-        <nombre>Big Smoked Fried Chiken</nombre>
+        <nombre>Big Smoked Fried Chicken</nombre>
         <descripcion>Tiras de pollo frito marinado junto a nuestra salsa Big Smoke.</descripcion>
         <foto>chiken.jpg</foto>
         <precio>11.5</precio>
